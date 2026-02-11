@@ -1,0 +1,131 @@
+/* Reset de base */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff0000, #ffcc00);
+    min-height: 100vh;
+}
+
+/* Header + Nav */
+header {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Effet souligné animé */
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff0000, #ffcc00);
+    left: 0;
+    bottom: -8px;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+/* Contenu */
+.content {
+    padding: 40px;
+    max-width: 900px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+/* Titres */
+.content h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #ff4500; 
+}
+/* Projets */
+.project {
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #fff5f5, #fff1cc);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.project h2 {
+    margin-top: 0;
+    color: #c62828;
+}
+
+.project p {
+    color: #444;
+    line-height: 1.6;
+}
+/* Barre interactive */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .content {
+        margin: 20px;
+        padding: 25px;
+    }
+}
+.btn--download {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f7792b, #f90606);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.btn--download:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+}
+
+.btn--download:active {
+  transform: translateY(0px);
+}
+
+.btn__icon {
+  font-size: 18px;
+}
