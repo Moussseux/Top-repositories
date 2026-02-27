@@ -84,13 +84,13 @@ $livraisonPrice = ($total >= 49) ? 0 : 5;
 <div class="promo-livraison active" id="promoLivraison">
 🎉 <strong>Avantage activé !</strong><br>
 ✔ Livraison normale GRATUITE<br>
-✔ Livraison rapide à seulement 5€
+✔ Livraison rapide à seulement 4,99€
 </div>
 <?php else: ?>
 <div class="promo-livraison" id="promoLivraison">
 💡 Ajoutez encore <strong><?= number_format(49 - $total, 2) ?> €</strong> pour débloquer :<br>
 ✔ Livraison normale gratuite<br>
-✔ Livraison rapide à 5€
+✔ Livraison rapide à 4,99€
 </div>
 <?php endif; ?>
 
@@ -107,8 +107,8 @@ Livraison : <strong><span id="livraisonPrice"><?= number_format($livraisonPrice,
 <label>Type de livraison</label>
 <select name="livraison" id="livraisonSelect" required>
 <option value="">-- Choisir --</option>
-<option value="normale">🚚 Livraison normale (5€ / GRATUITE dès 49€)</option>
-<option value="rapide">⚡ Livraison rapide (10€ / 5€ dès 49€)</option>
+<option value="normale">🚚 Livraison normale (4,99€ / GRATUITE dès 49€)</option>
+<option value="rapide">⚡ Livraison rapide (9,99€ / 4,99€ dès 49€)</option>
 <option value="click_collect">🏬 Click & Collect (gratuit)</option>
 </select>
 
@@ -208,7 +208,7 @@ let totalProduits = <?= $total ?>;
 
 function updatePromo() {
     if(totalProduits >= 49){
-        promoBlock.innerHTML = "🎉 <strong>Avantage activé ! Plus de 49 euro d'achats</strong><br>✔ Livraison normale GRATUITE<br>✔ Livraison rapide à seulement 5€";
+        promoBlock.innerHTML = "🎉 <strong>Avantage activé ! Plus de 49 euro d'achats</strong><br>✔ Livraison normale GRATUITE<br>✔ Livraison rapide à seulement 4,99€";
         promoBlock.classList.add("active");
     } else {
         promoBlock.innerHTML = "💡 Ajoutez encore <strong>"+(49 - totalProduits).toFixed(2)+" €</strong> pour débloquer :<br>✔ Livraison normale gratuite<br>✔ Livraison rapide à 5€";
@@ -223,7 +223,7 @@ livraisonSelect.addEventListener("change", function() {
         fournisseurBlock.style.display = "block";
         magasinBlock.style.display = "none";
         adresseBlock.style.display = "block";
-        livraisonPrice = (totalProduits >= 49) ? 5 : 10;
+        livraisonPrice = (totalProduits >= 49) ? 4.99 : 9.99;
     } else if (this.value === "click_collect") {
         livraisonPrice = 0;
         fournisseurBlock.style.display = "none";
@@ -233,7 +233,7 @@ livraisonSelect.addEventListener("change", function() {
         fournisseurBlock.style.display = "block";
         magasinBlock.style.display = "none";
         adresseBlock.style.display = "block";
-        livraisonPrice = (totalProduits >= 49) ? 0 : 5;
+        livraisonPrice = (totalProduits >= 49) ? 0 : 4.99;
     } else {
         fournisseurBlock.style.display = "none";
         magasinBlock.style.display = "none";
