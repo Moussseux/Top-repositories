@@ -19,7 +19,7 @@ $livraison = htmlspecialchars($_POST['livraison']);
 $userId = $_SESSION['user']['id'] ?? null;
 
 // Recalcul panier côté serveur
-$total = 0;
+$totalProduits = 0;
 $items = [];
 
 foreach ($_SESSION['panier'] as $id => $qty) {
@@ -31,9 +31,30 @@ foreach ($_SESSION['panier'] as $id => $qty) {
         $jeu['quantite'] = $qty;
         $jeu['total'] = $qty * $jeu['prix'];
         $items[] = $jeu;
-        $total += $jeu['total'];
+        $totalProduits += $jeu['total'];
     }
 }
+
+// ✅ Calcul livraison sécurisé côté serveur
+switch ($livraison) {
+    case 'rapide':
+        $livraisonPrice = 10;
+        $livraisonLabel = "⚡ Livraison rapide (24-48h)";
+        break;
+
+    case 'click_collect':
+        $livraisonPrice = 0;
+        $livraisonLabel = "🏬 Click & Collect";
+        break;
+
+    default:
+        $livraisonPrice = 5;
+        $livraisonLabel = "🚚 Livraison normale (3-5 jours)";
+        break;
+}
+
+// Total final
+$totalFinal = $totalProduits + $livraisonPrice;
 
 // Sauvegarde commande
 $stmt = $db->prepare("
@@ -41,9 +62,17 @@ $stmt = $db->prepare("
     (user_id, prenom, nom, email, adresse, cp, ville, livraison, total)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
+
 $stmt->execute([
-    $userId, $prenom, $nom, $email,
-    $adresse, $cp, $ville, $livraison, $total
+    $userId,
+    $prenom,
+    $nom,
+    $email,
+    $adresse,
+    $cp,
+    $ville,
+    $livraisonLabel,
+    $totalFinal
 ]);
 
 $commandeId = $db->lastInsertId();
@@ -84,7 +113,7 @@ unset($_SESSION['panier']);
         <p class="subtitle">Merci pour votre commande !</p>
 
         <p><strong>Commande n° :</strong> <?= $commandeId ?></p>
-        <p><strong>Livraison :</strong> <?= $livraison ?></p>
+        <p><strong>Mode de livraison :</strong> <?= $livraisonLabel ?></p>
 
         <ul class="payment-items">
             <?php foreach ($items as $jeu): ?>
@@ -96,7 +125,9 @@ unset($_SESSION['panier']);
         </ul>
 
         <div class="payment-total">
-            Total payé : <strong><?= number_format($total, 2) ?> €</strong>
+            Total produits : <strong><?= number_format($totalProduits, 2) ?> €</strong><br>
+            Livraison : <strong><?= number_format($livraisonPrice, 2) ?> €</strong><br>
+            <strong>Total payé : <?= number_format($totalFinal, 2) ?> €</strong>
         </div>
 
         <a href="index.php" class="btn-pay">Retour à la boutique</a>
